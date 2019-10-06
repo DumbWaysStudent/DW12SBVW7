@@ -24,6 +24,15 @@ export class App extends Component {
     this.setState({ todos });
   }
 
+  checkedTodo = todoId => {
+    const newArray = deepCopy(this.state.todos);
+    const todos = newArray.map(todo => {
+      if (todo.id == todoId) todo.isFinished = !todo.isFinished;
+      return todo;
+    });
+    this.setState({ todos });
+  }
+
   render() {
     return (
       <View style={{ padding: 10 }}>
@@ -33,6 +42,7 @@ export class App extends Component {
         <Todo
           todos={this.state.todos}
           removeTodo={this.removeTodo}
+          checkedTodo={this.checkedTodo}
         />
       </View>
     )

@@ -10,6 +10,7 @@ const Todo = props => {
       <TodoItems
         todos={props.todos}
         removeTodo={props.removeTodo}
+        checkedTodo={props.checkedTodo}
       />
     </ScrollView>
   );

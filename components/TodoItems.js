@@ -1,16 +1,22 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { CheckBox } from 'react-native-elements';
 
 const TodoItems = props => {
   return props.todos.map(todo => {
     return (
       <View style={styles.items} key={todo.id}>
-        <View style={{ flex: 2, flexDirection: 'row' }}>
+        <View style={styles.leftSide}>
+          <CheckBox
+            checked={todo.isFinished}
+            onPress={() => props.checkedTodo(todo.id)}
+          />
           <Text style={styles.text}>{todo.name}</Text>
         </View>
-        <View style={{ flex:1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <View
+          style={styles.rightSide}> 
           <Icon
             name="md-trash"
             size={25}
@@ -33,8 +39,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 15,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  },
+  leftSide: {
+    flex: 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rightSide: {
+    flex:1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
 });
 
