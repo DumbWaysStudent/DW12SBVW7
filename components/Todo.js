@@ -6,7 +6,7 @@ import TodoItems from '../components/TodoItems';
 
 const Todo = props => {
   return (
-    <ScrollView>
+    <ScrollView style={{ marginTop: 30 }}>
       <TodoItems
         todos={props.todos}
       />
