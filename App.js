@@ -18,6 +18,12 @@ export class App extends Component {
     this.setState({ todos: newArray });
   }
 
+  removeTodo = todoId => {
+    const newArray = deepCopy(this.state.todos);
+    const todos = newArray.filter(todo => todo.id !== todoId ? todo : null);
+    this.setState({ todos });
+  }
+
   render() {
     return (
       <View style={{ padding: 10 }}>
@@ -26,6 +32,7 @@ export class App extends Component {
         />
         <Todo
           todos={this.state.todos}
+          removeTodo={this.removeTodo}
         />
       </View>
     )

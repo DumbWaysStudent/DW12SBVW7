@@ -10,6 +10,14 @@ const TodoItems = props => {
         <View style={{ flex: 2, flexDirection: 'row' }}>
           <Text style={styles.text}>{todo.name}</Text>
         </View>
+        <View style={{ flex:1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <Icon
+            name="md-trash"
+            size={25}
+            color="red"
+            onPress={() => props.removeTodo(todo.id)}
+          />
+        </View>
       </View>
     )
   });

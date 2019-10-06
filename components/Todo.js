@@ -9,6 +9,7 @@ const Todo = props => {
     <ScrollView style={{ marginTop: 30 }}>
       <TodoItems
         todos={props.todos}
+        removeTodo={props.removeTodo}
       />
     </ScrollView>
   );
