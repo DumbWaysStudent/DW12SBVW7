@@ -1,53 +1,63 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity
-} from 'react-native';
+import { Text, TextInput, StyleSheet, View, TouchableOpacity } from 'react-native';
+
+import generateId from '../helpers/genId';
 
 export class AddTodo extends Component {
 
-  state = {
-    id: 1,
-    name: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: props.todo.name,
+    }
   }
-
-  handleText(input) {
-    this.setState({ name: input });
+  
+  componentDidUpdate(prevProps) {
+    if (prevProps.todo.name !== this.props.todo.name) {
+      this.setState({ name: this.props.todo.name });
+    }
   }
 
   handleSubmit() {
-    const newTodo = {
-      id: this.state.id,
-      name: this.state.name,
-      isFinished: false,
-    };
+    if (!this.props.isEdit) {
+      const newTodo = {
+        id: generateId(5),
+        name: this.state.name,
+        isFinished: this.props.todo.isFinished,
+      };
+  
+      // send function to parents
+      this.props.addTodo(newTodo);
+    } else {
+      const updateTodo = {
+        id: this.props.todo.id,
+        name: this.state.name,
+        isFinished: this.props.todo.isFinished,
+      }
 
-    this.props.addTodo(newTodo);
+      this.props.updateNewTodo(updateTodo);
+    }
 
-    this.setState({
-      id: this.state.id + 1,
-      name: ''
-    });
+    // clear state name
+    this.setState({ name: '' });
   }
 
   render() {
-    let { name } = this.state;
     return (
       <View style={styles.container}>
         <TextInput
           style={styles.input}
-          value={name}
-          onChangeText={this.handleText.bind(this)}
+          value={this.state.name}
+          onChangeText={(input) => this.setState({ name: input })}
           placeholder="Add new Todo"
         />
         <TouchableOpacity
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
         >
-          <Text style={styles.text}>Add</Text>
+          {
+            this.props.isEdit ? <Text style={styles.text}>Edit</Text> : <Text style={styles.text}>Add</Text>
+          }
         </TouchableOpacity>
       </View>
     )
@@ -74,7 +84,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: 'bold',
-  }
+  },
 });
 
 export default AddTodo;

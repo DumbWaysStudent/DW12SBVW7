@@ -18,6 +18,12 @@ const TodoItems = props => {
         <View
           style={styles.rightSide}> 
           <Icon
+            name="md-create"
+            size={25}
+            color="blue"
+            onPress={() => props.editTodo(todo.id)}
+          />
+          <Icon
             name="md-trash"
             size={25}
             color="red"
@@ -48,7 +54,7 @@ const styles = StyleSheet.create({
   rightSide: {
     flex:1,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-around',
   },
 });
 

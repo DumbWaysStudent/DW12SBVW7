@@ -10,11 +10,18 @@ export class App extends Component {
 
   state = {
     todos: [],
+    todo: {
+      id: null,
+      name: '',
+      isFinished: false,
+    },
+    isEdit: false,
   }
 
   addTodo = input => {
     const newArray = deepCopy(this.state.todos);
     newArray.push(input);
+
     this.setState({ todos: newArray });
   }
 
@@ -33,16 +40,38 @@ export class App extends Component {
     this.setState({ todos });
   }
 
+  editTodo = todoId => {
+    this.setState({ isEdit: !this.state.isEdit });
+    const data = this.state.todos.find(todo => todo.id == todoId);
+    const todo = { ...data };
+    this.setState({ todo });
+  }
+
+  updateNewTodo = input => {
+    const newArray = deepCopy(this.state.todos);
+    const todos = newArray.map(todo => {
+      if (todo.id == input.id) {
+        todo = { ...input };
+      }
+      return todo;
+    });
+    this.setState({ todos, isEdit: !this.state.isEdit });
+  }
+
   render() {
     return (
       <View style={{ padding: 10 }}>
         <AddTodo
-          addTodo={this.addTodo}
+          todo={this.state.todo}
+          addTodo={this.addTodo}          
+          isEdit={this.state.isEdit}
+          updateNewTodo={this.updateNewTodo}
         />
         <Todo
           todos={this.state.todos}
           removeTodo={this.removeTodo}
           checkedTodo={this.checkedTodo}
+          editTodo={this.editTodo}
         />
       </View>
     )
